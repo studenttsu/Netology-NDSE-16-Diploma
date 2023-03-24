@@ -1,6 +1,6 @@
 import { User } from "../models/user.model";
 import { SearchUserParams } from "./search-user-params.interface";
-import { ID } from "../../common/types";
+import { ID } from "../../core/types";
 import { CreateUserDto } from "../dto/user.dto";
 
 export interface IUserService {

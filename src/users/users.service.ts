@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 
 import { IUserService } from "./interfaces/user-service.interface";
 import { User, UserDocument } from "./models/user.model";
-import { ID } from "../common/types";
+import { ID } from "../core/types";
 import { SearchUserParams } from "./interfaces/search-user-params.interface";
 import { CreateUserDto } from "./dto/user.dto";
 

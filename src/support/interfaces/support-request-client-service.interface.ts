@@ -1,4 +1,4 @@
-import { ID } from "../../common/types";
+import { ID } from "../../core/types";
 import { ICreateSupportRequestDto } from "./create-support-request.interface";
 import { IMarkMessagesAsRead } from "./mark-messages-as-read.interface";
 import { SupportRequest } from "../models/user.model";

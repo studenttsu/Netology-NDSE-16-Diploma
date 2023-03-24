@@ -1,4 +1,4 @@
-import { ID } from "../../common/types";
+import { ID } from "../../core/types";
 import { HotelRoom } from "../models/hotel-room.model";
 import { SearchRoomsParams } from "./search-rooms-params.interface";
 

@@ -1,6 +1,6 @@
 import { Reservation } from "../models/user.model";
 import { ReservationSearchOptions } from "./reservation-user-params.interface";
-import { ID } from "../../common/types";
+import { ID } from "../../core/types";
 import { IReservationDto } from "./reservation.interface";
 
 export interface IReservationService {

@@ -1,4 +1,4 @@
-import { ID } from "../../common/types";
+import { ID } from "../../core/types";
 
 export interface ISendMessageDto {
     author: ID;

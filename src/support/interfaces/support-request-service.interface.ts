@@ -1,5 +1,5 @@
 import { GetChatListParams } from "./get-chat-list-params.interface";
-import { ID } from "../../common/types";
+import { ID } from "../../core/types";
 import { ISendMessageDto } from "./send-message.interface";
 import { SupportRequest } from "../models/user.model";
 import { Message } from "../models/message.model";

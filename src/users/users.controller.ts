@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import {
     ApiCreatedResponse,
-    ApiForbiddenResponse, ApiOkResponse,
+    ApiForbiddenResponse,
+    ApiOkResponse,
     ApiOperation,
     ApiTags,
     ApiUnauthorizedResponse
@@ -10,6 +11,8 @@ import {
 import { CreateUserDto, UserDto } from "./dto/user.dto";
 import { SearchUserParams } from "./interfaces/search-user-params.interface";
 import { UsersService } from "./users.service";
+import { Roles } from "../core/decorators/roles.decorator";
+import { UserRole } from "../core/user-role.enum";
 
 @ApiTags('Пользователи')
 @Controller()
@@ -18,6 +21,7 @@ export class UsersController {
     }
 
     @Post('/admin/users')
+    @Roles(UserRole.Admin)
     @ApiOperation({ summary: 'Создает пользователя' })
     @ApiCreatedResponse({ type: UserDto })
     @ApiUnauthorizedResponse({ description: 'Пользователь не аутентифицирован' })
@@ -27,6 +31,7 @@ export class UsersController {
     }
 
     @Get('/admin/users')
+    @Roles(UserRole.Admin)
     @ApiOperation({ summary: 'Возвращает пользователей для администратора' })
     @ApiOkResponse({ type: [UserDto] })
     @ApiUnauthorizedResponse({ description: 'Пользователь не аутентифицирован' })
@@ -36,6 +41,7 @@ export class UsersController {
     }
 
     @Get('/manager/users')
+    @Roles(UserRole.Manager)
     @ApiOperation({ summary: 'Возвращает пользователей для менеджера' })
     @ApiOkResponse({ type: [UserDto] })
     @ApiUnauthorizedResponse({ description: 'Пользователь не аутентифицирован' })

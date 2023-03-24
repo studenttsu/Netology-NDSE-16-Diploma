@@ -1,4 +1,4 @@
-import { ID } from "../../common/types";
+import { ID } from "../../core/types";
 
 export interface SearchRoomsParams {
     limit: number;
