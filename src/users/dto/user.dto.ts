@@ -28,5 +28,3 @@ export class CreateUserDto extends OmitType(UserDto, ['id']) {
     @ApiProperty({ description: 'Пароль' })
     password: string;
 }
-
-export class RegisterUserDto extends OmitType(CreateUserDto, ['role']) {}
