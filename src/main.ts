@@ -24,7 +24,6 @@ async function bootstrap() {
   const config = new DocumentBuilder()
       .setTitle('Netology - Дипломный проект')
       .setDescription('API бронирования гостиниц')
-      .addCookieAuth('connect.sid')
       .build()
 
   const document = SwaggerModule.createDocument(app, config);

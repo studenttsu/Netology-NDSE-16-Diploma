@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import {
+    ApiCookieAuth,
     ApiCreatedResponse,
     ApiForbiddenResponse,
     ApiOkResponse,
@@ -13,8 +14,11 @@ import { SearchUserParams } from "./interfaces/search-user-params.interface";
 import { UsersService } from "./users.service";
 import { Roles } from "../core/decorators/roles.decorator";
 import { UserRole } from "../core/user-role.enum";
+import { AuthGuard } from "../auth/guards/auth.guard";
 
-@ApiTags('Пользователи')
+@ApiTags('Пользователи done')
+@UseGuards(AuthGuard)
+@ApiCookieAuth()
 @Controller()
 export class UsersController {
     constructor(private readonly usersService: UsersService) {
@@ -26,8 +30,16 @@ export class UsersController {
     @ApiCreatedResponse({ type: UserDto })
     @ApiUnauthorizedResponse({ description: 'Пользователь не аутентифицирован' })
     @ApiForbiddenResponse({ description: 'Роль пользователя не admin' })
-    createUser(@Body() userDto: CreateUserDto) {
-        return this.usersService.create(userDto);
+    async createUser(@Body() userDto: CreateUserDto) {
+        const user = await this.usersService.create(userDto);
+
+        return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            contactPhone: user.contactPhone,
+            role: user.role
+        };
     }
 
     @Get('/admin/users')
@@ -36,8 +48,15 @@ export class UsersController {
     @ApiOkResponse({ type: [UserDto] })
     @ApiUnauthorizedResponse({ description: 'Пользователь не аутентифицирован' })
     @ApiForbiddenResponse({ description: 'Роль пользователя не admin' })
-    getAdminUsers(@Query() query: SearchUserParams) {
-        return this.usersService.findAll(query);
+    async getAdminUsers(@Query() query: SearchUserParams) {
+        const users = await this.usersService.findAll(query);
+
+        return users.map(user => ({
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            contactPhone: user.contactPhone
+        }));
     }
 
     @Get('/manager/users')
@@ -46,8 +65,15 @@ export class UsersController {
     @ApiOkResponse({ type: [UserDto] })
     @ApiUnauthorizedResponse({ description: 'Пользователь не аутентифицирован' })
     @ApiForbiddenResponse({ description: 'Роль пользователя не manager' })
-    getManagerUsers(@Query() query: SearchUserParams) {
-        return this.usersService.findAll(query);
+    async getManagerUsers(@Query() query: SearchUserParams) {
+        const users = await this.usersService.findAll(query);
+
+        return users.map(user => ({
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            contactPhone: user.contactPhone
+        }));
     }
 
 }

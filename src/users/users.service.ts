@@ -32,9 +32,24 @@ export class UsersService implements IUserService {
     }
 
     findAll(params: SearchUserParams): Promise<User[]> {
-        return this.userModel.find(params)
-            .skip(params.offset)
-            .limit(params.limit);
+        const filter = {};
+
+        if (params.name) {
+            filter['name'] = new RegExp(`^${params.name}`, 'i');
+        }
+
+        if (params.email) {
+            filter['email'] = new RegExp(`^${params.email}`, 'i');
+        }
+
+        if (params.contactPhone) {
+            filter['contactPhone'] = new RegExp(`^${params.contactPhone}`, 'i');
+        }
+
+        return this.userModel.find(filter)
+            .select(['-__v', '-passwordHash'])
+            .skip(params.offset ?? 0)
+            .limit(params.limit ?? 100);
     }
 
     async verifyPassword(password: string, hash: string) {

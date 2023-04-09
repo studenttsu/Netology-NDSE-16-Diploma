@@ -1,6 +1,7 @@
 import { ApiProperty, OmitType } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 import { UserRole } from "../../core/user-role.enum";
+import { User } from "../models/user.model";
 
 export class UserDto {
     @ApiProperty({ description: 'Id' })
@@ -21,6 +22,15 @@ export class UserDto {
     @IsString()
     @ApiProperty({ description: 'Роль', enum: UserRole })
     role: UserRole;
+
+    constructor(user: User) {
+        this.id = user.id;
+        this.email = user.email;
+        this.name = user.name;
+        this.contactPhone = user.contactPhone;
+        this.role = user.role;
+    }
+
 }
 
 export class CreateUserDto extends OmitType(UserDto, ['id']) {
