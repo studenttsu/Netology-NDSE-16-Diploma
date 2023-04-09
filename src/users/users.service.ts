@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import * as bcrypt from 'bcrypt';
 
 import { IUserService } from "./interfaces/user-service.interface";
 import { User, UserDocument } from "./models/user.model";
@@ -13,8 +14,12 @@ export class UsersService implements IUserService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
     }
 
-    create(data: CreateUserDto): Promise<User> {
-        const user = new this.userModel(data);
+    async create(data: CreateUserDto): Promise<User> {
+        const user = new this.userModel({
+            ...data,
+            passwordHash: await bcrypt.hash(data.password, 10)
+        });
+
         return user.save();
     }
 
@@ -30,5 +35,13 @@ export class UsersService implements IUserService {
         return this.userModel.find(params)
             .skip(params.offset)
             .limit(params.limit);
+    }
+
+    async verifyPassword(password: string, hash: string) {
+        const matched = await bcrypt.compare(password, hash,);
+
+        if (!matched) {
+            throw new UnauthorizedException('Пароль неверный');
+        }
     }
 }
