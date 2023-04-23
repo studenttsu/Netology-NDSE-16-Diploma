@@ -3,27 +3,28 @@ import {
     Controller,
     Get,
     Param,
-    ParseIntPipe,
     Post,
     Put,
     Query, UploadedFiles,
     UseGuards,
     UseInterceptors
 } from '@nestjs/common';
-import { ApiConsumes, ApiCookieAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiConsumes, ApiCookieAuth, ApiCreatedResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { FilesInterceptor } from "@nestjs/platform-express";
 
 import { UserRole } from "../../core/user-role.enum";
 import { Roles } from "../../core/decorators/roles.decorator";
 import { SearchRoomsParams } from "../interfaces/search-rooms-params.interface";
 import { AuthGuard } from "../../auth/guards/auth.guard";
-import { CreateHotelRoomDto } from "../dto/HotelRoomDto";
+import { CreateHotelRoomDto, HotelRoomDto } from "../dto/HotelRoomDto";
 import { HotelRoomsService } from "../services/hotel-rooms.service";
 
 @ApiTags('Гостиницы')
 @Controller()
 export class HotelRoomsController {
-    constructor(private readonly hotelRoomsService: HotelRoomsService) {}
+    constructor(
+        private readonly hotelRoomsService: HotelRoomsService,
+    ) {}
 
     @Post('/admin/hotel-rooms')
     @Roles(UserRole.Admin)
@@ -31,12 +32,16 @@ export class HotelRoomsController {
     @ApiCookieAuth()
     @ApiConsumes('multipart/form-data')
     @ApiOperation({ summary: 'Добавление номера гостиницы администратором' })
+    @ApiCreatedResponse({ type: HotelRoomDto })
     @UseInterceptors(FilesInterceptor('images'))
-    createHotelRoom(
+    async createHotelRoom(
         @Body() hotelRoomDto: CreateHotelRoomDto,
         @UploadedFiles() images: Express.Multer.File[]
     ) {
-        console.log(hotelRoomDto, images);
+        return this.hotelRoomsService.create({
+            ...hotelRoomDto,
+            images
+        });
     }
 
     @Put('/admin/hotel-rooms/:id')
@@ -44,16 +49,20 @@ export class HotelRoomsController {
     @UseGuards(AuthGuard)
     @ApiCookieAuth()
     @ApiOperation({ summary: 'Изменение описания номера гостиницы администратором' })
-    updateHotelRoom(@Param('id', ParseIntPipe) id: number) {}
+    updateHotelRoom(@Param('id') id: string) {}
 
     @Get('/common/hotel-rooms')
     @ApiOperation({ summary: 'Основной API для поиска номеров' })
-    getHotelRooms(@Query() params: SearchRoomsParams) {
-        return this.hotelRoomsService.search(params);
+    async getHotelRooms(@Query() params: SearchRoomsParams) {
+        const rooms = await this.hotelRoomsService.search(params);
+        return rooms.map(r => new HotelRoomDto(r));
     }
 
     @Get('/common/hotel-rooms/:id')
     @ApiOperation({ summary: 'Получение подробной информации о номере' })
-    getHotelRoomsById(@Param('id', ParseIntPipe) id: number) {}
+    async getHotelRoomsById(@Param('id') id: string) {
+        const room = await this.hotelRoomsService.findById(id);
+        return new HotelRoomDto(room);
+    }
 
 }

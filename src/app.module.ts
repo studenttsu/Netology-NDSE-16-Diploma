@@ -11,16 +11,23 @@ import { ReservationsModule } from './reservations/reservations.module';
 import { SupportModule } from './support/support.module';
 import { RolesGuard } from "./core/guards/roles.guard";
 import { AuthModule } from './auth/auth.module';
+import { MinioClientModule } from './minio-client/minio-client.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    MongooseModule.forRoot(process.env.MONGO_URI),
+    ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRoot(process.env.MONGO_URI, {
+        connectionFactory: (connection) => {
+          connection.plugin(require('mongoose-autopopulate'));
+          return connection;
+        }
+    }),
     AuthModule,
     UsersModule,
     HotelsModule,
     ReservationsModule,
     SupportModule,
+    MinioClientModule,
   ],
   controllers: [AppController],
   providers: [

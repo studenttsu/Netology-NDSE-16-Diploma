@@ -9,7 +9,7 @@ import {
     Put,
     Query, UseGuards
 } from '@nestjs/common';
-import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ApiCookieAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 
 import { UserRole } from "../../core/user-role.enum";
 import { Roles } from "../../core/decorators/roles.decorator";
@@ -20,15 +20,15 @@ import { ApiPaginatedResponse } from "../../core/pagination/ApiPaginatedResponse
 import { PageDto } from "../../core/pagination/PageDto";
 
 @ApiTags('Гостиницы')
+@UseGuards(AuthGuard)
+@Roles(UserRole.Admin)
+@ApiCookieAuth()
 @Controller()
 export class HotelsController {
     constructor(private readonly hotelsService: HotelsService) {}
 
     @Post('/admin/hotels')
-    @UseGuards(AuthGuard)
-    @ApiCookieAuth()
-    @Roles(UserRole.Admin)
-    @ApiOkResponse({ type: HotelDto })
+    @ApiCreatedResponse({ type: HotelDto })
     @ApiOperation({ summary: 'Добавление гостиницы администратором' })
     async createHotel(@Body() hotelDto: UpdateCreateHotelDto): Promise<HotelDto> {
         if (!hotelDto.title) {
@@ -40,9 +40,6 @@ export class HotelsController {
     }
 
     @Get('/admin/hotels')
-    @Roles(UserRole.Admin)
-    @UseGuards(AuthGuard)
-    @ApiCookieAuth()
     @ApiQuery({
         name: 'title',
         type: String,
@@ -74,9 +71,6 @@ export class HotelsController {
     }
 
     @Put('/admin/hotels/:id')
-    @Roles(UserRole.Admin)
-    @UseGuards(AuthGuard)
-    @ApiCookieAuth()
     @ApiOkResponse({ type: HotelDto })
     @ApiOperation({ summary: 'Изменение описания гостиницы администратором' })
     async updateHotel(

@@ -7,6 +7,7 @@ import { Hotel, HotelSchema } from "./models/hotel.model";
 import { HotelRoom, HotelRoomSchema } from "./models/hotel-room.model";
 import { HotelRoomsService } from "./services/hotel-rooms.service";
 import { HotelRoomsController } from "./controllers/hotel-rooms.controller";
+import { MinioClientModule } from "../minio-client/minio-client.module";
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { HotelRoomsController } from "./controllers/hotel-rooms.controller";
       { name: Hotel.name, schema: HotelSchema },
       { name: HotelRoom.name, schema: HotelRoomSchema }
     ]),
+    MinioClientModule
   ],
   controllers: [HotelsController, HotelRoomsController],
   providers: [HotelsService, HotelRoomsService]
