@@ -1,9 +1,12 @@
-import { Controller, Delete, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Controller, Delete, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
+import { ApiCookieAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Roles } from "../core/decorators/roles.decorator";
 import { UserRole } from "../core/user-role.enum";
+import { AuthGuard } from "../auth/guards/auth.guard";
 
 @ApiTags('Бронирование')
+@UseGuards(AuthGuard)
+@ApiCookieAuth()
 @Controller()
 export class ReservationsController {
     @Post('/client/reservations')
