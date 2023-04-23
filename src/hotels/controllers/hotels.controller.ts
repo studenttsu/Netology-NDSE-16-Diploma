@@ -7,63 +7,22 @@ import {
     ParseIntPipe,
     Post,
     Put,
-    Query, UploadedFiles,
-    UseGuards,
-    UseInterceptors
+    Query, UseGuards
 } from '@nestjs/common';
-import { ApiConsumes, ApiCookieAuth, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
-import { FilesInterceptor } from "@nestjs/platform-express";
+import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 
-import { UserRole } from "../core/user-role.enum";
-import { Roles } from "../core/decorators/roles.decorator";
-import { HotelsService } from "./hotels.service";
-import { SearchRoomsParams } from "./interfaces/search-rooms-params.interface";
-import { AuthGuard } from "../auth/guards/auth.guard";
-import { CreateHotelRoomDto } from "./dto/HotelRoomDto";
-import { UpdateCreateHotelDto, HotelDto } from "./dto/HotelDto";
-import { HotelRoomsService } from "./hotel-rooms.service";
-import { ApiPaginatedResponse } from "../core/pagination/ApiPaginatedResponse";
-import { PageDto } from "../core/pagination/PageDto";
+import { UserRole } from "../../core/user-role.enum";
+import { Roles } from "../../core/decorators/roles.decorator";
+import { HotelsService } from "../services/hotels.service";
+import { AuthGuard } from "../../auth/guards/auth.guard";
+import { UpdateCreateHotelDto, HotelDto } from "../dto/HotelDto";
+import { ApiPaginatedResponse } from "../../core/pagination/ApiPaginatedResponse";
+import { PageDto } from "../../core/pagination/PageDto";
 
 @ApiTags('Гостиницы')
 @Controller()
 export class HotelsController {
-    constructor(
-        private readonly hotelsService: HotelsService,
-        private readonly hotelRoomsService: HotelRoomsService,
-    ) {
-    }
-
-    @Post('/admin/hotel-rooms')
-    @Roles(UserRole.Admin)
-    @UseGuards(AuthGuard)
-    @ApiCookieAuth()
-    @ApiConsumes('multipart/form-data')
-    @ApiOperation({ summary: 'Добавление номера гостиницы администратором' })
-    @UseInterceptors(FilesInterceptor('images'))
-    createHotelRoom(
-        @Body() hotelRoomDto: CreateHotelRoomDto,
-        @UploadedFiles() images: Express.Multer.File[]
-    ) {
-        console.log(hotelRoomDto, images);
-    }
-
-    @Put('/admin/hotel-rooms/:id')
-    @Roles(UserRole.Admin)
-    @UseGuards(AuthGuard)
-    @ApiCookieAuth()
-    @ApiOperation({ summary: 'Изменение описания номера гостиницы администратором' })
-    updateHotelRoom(@Param('id', ParseIntPipe) id: number) {}
-
-    @Get('/common/hotel-rooms')
-    @ApiOperation({ summary: 'Основной API для поиска номеров' })
-    getHotelRooms(@Query() params: SearchRoomsParams) {
-        return this.hotelRoomsService.search(params);
-    }
-
-    @Get('/common/hotel-rooms/:id')
-    @ApiOperation({ summary: 'Получение подробной информации о номере' })
-    getHotelRoomsById(@Param('id', ParseIntPipe) id: number) {}
+    constructor(private readonly hotelsService: HotelsService) {}
 
     @Post('/admin/hotels')
     @UseGuards(AuthGuard)

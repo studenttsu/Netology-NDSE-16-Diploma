@@ -2,13 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
-import { Hotel, HotelDocument } from "./models/hotel.model";
-import { ID } from "../core/types";
-import { IHotelService } from "./interfaces/hotel-service.interface";
-import { SearchHotelParams } from "./interfaces/search-hotel-params.interface";
-import { UpdateHotelParams } from "./interfaces/update-hotel-params.interface";
-import { UpdateCreateHotelDto, HotelDto } from "./dto/HotelDto";
-import { PageDto } from "../core/pagination/PageDto";
+import { Hotel, HotelDocument } from "../models/hotel.model";
+import { ID } from "../../core/types";
+import { IHotelService } from "../interfaces/hotel-service.interface";
+import { SearchHotelParams } from "../interfaces/search-hotel-params.interface";
+import { UpdateHotelParams } from "../interfaces/update-hotel-params.interface";
+import { UpdateCreateHotelDto, HotelDto } from "../dto/HotelDto";
+import { PageDto } from "../../core/pagination/PageDto";
 
 @Injectable()
 export class HotelsService implements IHotelService {
