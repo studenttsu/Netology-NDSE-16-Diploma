@@ -24,7 +24,7 @@ import { ReqUserDto } from "./dto/req-user.dto";
 import { AuthGuard } from "./guards/auth.guard";
 import { AuthDto } from "./dto/auth.dto";
 
-@ApiTags('Auth done')
+@ApiTags('Auth')
 @Controller()
 export class AuthController {
     constructor(private readonly usersService: UsersService) {}

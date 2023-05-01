@@ -28,6 +28,23 @@ export class HotelRoomDto {
     }
 }
 
+export class HotelRoomShortDto {
+    @ApiProperty()
+    id: string;
+
+    @ApiProperty()
+    description: string;
+
+    @ApiProperty({ type: [String] })
+    images: string[];
+
+    constructor(hotelRoom: HotelRoom) {
+        this.id = hotelRoom.id;
+        this.description = hotelRoom.description;
+        this.images = hotelRoom.images;
+    }
+}
+
 export class CreateHotelRoomDto {
     @ApiProperty()
     description: string;

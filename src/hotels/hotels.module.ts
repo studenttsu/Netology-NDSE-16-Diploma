@@ -18,6 +18,7 @@ import { MinioClientModule } from "../minio-client/minio-client.module";
     MinioClientModule
   ],
   controllers: [HotelsController, HotelRoomsController],
-  providers: [HotelsService, HotelRoomsService]
+  providers: [HotelsService, HotelRoomsService],
+  exports: [HotelsService, HotelRoomsService]
 })
 export class HotelsModule {}

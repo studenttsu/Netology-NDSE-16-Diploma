@@ -16,7 +16,7 @@ import { Roles } from "../core/decorators/roles.decorator";
 import { UserRole } from "../core/user-role.enum";
 import { AuthGuard } from "../auth/guards/auth.guard";
 
-@ApiTags('Пользователи done')
+@ApiTags('Пользователи')
 @UseGuards(AuthGuard)
 @ApiCookieAuth()
 @Controller()
