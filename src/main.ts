@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { ValidationPipe } from "@nestjs/common";
-import * as session from "express-session"
-import * as passport from "passport"
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
+import * as session from 'express-session';
+import * as passport from 'passport';
 
 import { AppModule } from './app.module';
 
@@ -12,19 +12,19 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   app.use(
-      session({
-        secret: "secret",
-        resave: false,
-        saveUninitialized: false,
-      })
-  )
-  app.use(passport.initialize())
-  app.use(passport.session())
+    session({
+      secret: 'secret',
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   const config = new DocumentBuilder()
-      .setTitle('Netology - Дипломный проект')
-      .setDescription('API бронирования гостиниц')
-      .build()
+    .setTitle('Netology - Дипломный проект')
+    .setDescription('API бронирования гостиниц')
+    .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
