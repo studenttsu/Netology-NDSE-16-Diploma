@@ -56,7 +56,9 @@ export class HotelRoomsController {
   @ApiOperation({
     summary: 'Изменение описания номера гостиницы администратором',
   })
-  updateHotelRoom(@Param('id') id: string) {}
+  updateHotelRoom(@Param('id') id: string) {
+    // TODO: Реализовать логику
+  }
 
   @Get('/common/hotel-rooms')
   @ApiOperation({ summary: 'Основной API для поиска номеров' })

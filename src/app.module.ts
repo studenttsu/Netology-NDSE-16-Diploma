@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { APP_GUARD } from '@nestjs/core';
+import autopopulate from 'mongoose-autopopulate';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -18,7 +19,7 @@ import { MinioClientModule } from './minio-client/minio-client.module';
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(process.env.MONGO_URI, {
       connectionFactory: (connection) => {
-        connection.plugin(require('mongoose-autopopulate'));
+        connection.plugin(autopopulate);
         return connection;
       },
     }),
