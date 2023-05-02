@@ -10,15 +10,15 @@ import { HotelRoomsController } from './controllers/hotel-rooms.controller';
 import { MinioClientModule } from '../minio-client/minio-client.module';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: Hotel.name, schema: HotelSchema },
-      { name: HotelRoom.name, schema: HotelRoomSchema },
-    ]),
-    MinioClientModule,
-  ],
-  controllers: [HotelsController, HotelRoomsController],
-  providers: [HotelsService, HotelRoomsService],
-  exports: [HotelsService, HotelRoomsService],
+    imports: [
+        MongooseModule.forFeature([
+            { name: Hotel.name, schema: HotelSchema },
+            { name: HotelRoom.name, schema: HotelRoomSchema },
+        ]),
+        MinioClientModule,
+    ],
+    controllers: [HotelsController, HotelRoomsController],
+    providers: [HotelsService, HotelRoomsService],
+    exports: [HotelsService, HotelRoomsService],
 })
 export class HotelsModule {}

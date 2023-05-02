@@ -6,8 +6,8 @@ import { UpdateCreateHotelDto, HotelDto } from '../dto/HotelDto';
 import { PageDto } from '../../core/pagination/PageDto';
 
 export interface IHotelService {
-  create(data: UpdateCreateHotelDto): Promise<Hotel>;
-  findById(id: ID): Promise<Hotel>;
-  search(params: SearchHotelParams): Promise<PageDto<HotelDto>>;
-  update(id: ID, data: UpdateHotelParams): Promise<Hotel>;
+    create(data: UpdateCreateHotelDto): Promise<Hotel>;
+    findById(id: ID): Promise<Hotel>;
+    search(params: SearchHotelParams): Promise<PageDto<HotelDto>>;
+    update(id: ID, data: UpdateHotelParams): Promise<Hotel>;
 }

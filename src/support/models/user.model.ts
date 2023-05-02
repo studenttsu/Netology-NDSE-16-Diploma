@@ -6,15 +6,15 @@ export type SupportRequestDocument = HydratedDocument<SupportRequest>;
 
 @Schema({ timestamps: true })
 export class SupportRequest {
-  @Prop({ isRequired: true, ref: 'User' })
-  user: Types.ObjectId;
+    @Prop({ isRequired: true, ref: 'User' })
+    user: Types.ObjectId;
 
-  @Prop({ isRequired: true })
-  messages: Message[];
+    @Prop({ isRequired: true })
+    messages: Message[];
 
-  @Prop()
-  isActive: boolean;
+    @Prop()
+    isActive: boolean;
 }
 
 export const SupportRequestSchema =
-  SchemaFactory.createForClass(SupportRequest);
+    SchemaFactory.createForClass(SupportRequest);

@@ -5,13 +5,13 @@ export type HotelDocument = HydratedDocument<Hotel>;
 
 @Schema({ timestamps: true })
 export class Hotel {
-  id: string;
+    id: string;
 
-  @Prop({ isRequired: true })
-  title: string;
+    @Prop({ isRequired: true })
+    title: string;
 
-  @Prop()
-  description: string;
+    @Prop()
+    description: string;
 }
 
 export const HotelSchema = SchemaFactory.createForClass(Hotel);

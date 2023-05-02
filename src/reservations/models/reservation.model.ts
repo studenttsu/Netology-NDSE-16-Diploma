@@ -8,30 +8,30 @@ export type ReservationDocument = HydratedDocument<Reservation>;
 
 @Schema()
 export class Reservation {
-  @Prop({ isRequired: true, type: Types.ObjectId })
-  userId: ID;
+    @Prop({ isRequired: true, type: Types.ObjectId })
+    userId: ID;
 
-  @Prop({
-    isRequired: true,
-    ref: 'Hotel',
-    autopopulate: true,
-    type: Types.ObjectId,
-  })
-  hotelId: Hotel;
+    @Prop({
+        isRequired: true,
+        ref: 'Hotel',
+        autopopulate: true,
+        type: Types.ObjectId,
+    })
+    hotelId: Hotel;
 
-  @Prop({
-    isRequired: true,
-    ref: 'HotelRoom',
-    autopopulate: true,
-    type: Types.ObjectId,
-  })
-  roomId: HotelRoom;
+    @Prop({
+        isRequired: true,
+        ref: 'HotelRoom',
+        autopopulate: true,
+        type: Types.ObjectId,
+    })
+    roomId: HotelRoom;
 
-  @Prop({ isRequired: true, type: Date })
-  dateStart: string;
+    @Prop({ isRequired: true, type: Date })
+    dateStart: string;
 
-  @Prop({ isRequired: true, type: Date })
-  dateEnd: string;
+    @Prop({ isRequired: true, type: Date })
+    dateEnd: string;
 }
 
 export const ReservationSchema = SchemaFactory.createForClass(Reservation);

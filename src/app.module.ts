@@ -15,28 +15,28 @@ import { AuthModule } from './auth/auth.module';
 import { MinioClientModule } from './minio-client/minio-client.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(process.env.MONGO_URI, {
-      connectionFactory: (connection) => {
-        connection.plugin(autopopulate);
-        return connection;
-      },
-    }),
-    AuthModule,
-    UsersModule,
-    HotelsModule,
-    ReservationsModule,
-    SupportModule,
-    MinioClientModule,
-  ],
-  controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
-  ],
+    imports: [
+        ConfigModule.forRoot({ isGlobal: true }),
+        MongooseModule.forRoot(process.env.MONGO_URI, {
+            connectionFactory: (connection) => {
+                connection.plugin(autopopulate);
+                return connection;
+            },
+        }),
+        AuthModule,
+        UsersModule,
+        HotelsModule,
+        ReservationsModule,
+        SupportModule,
+        MinioClientModule,
+    ],
+    controllers: [AppController],
+    providers: [
+        AppService,
+        {
+            provide: APP_GUARD,
+            useClass: RolesGuard,
+        },
+    ],
 })
 export class AppModule {}

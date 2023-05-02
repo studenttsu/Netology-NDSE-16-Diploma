@@ -4,8 +4,8 @@ import { SearchRoomsParams } from './search-rooms-params.interface';
 import { CreateHotelRoomDto } from '../dto/HotelRoomDto';
 
 export interface IHotelRoomsService {
-  create(data: CreateHotelRoomDto): Promise<HotelRoom>;
-  findById(id: ID): Promise<HotelRoom>;
-  search(params: SearchRoomsParams): Promise<HotelRoom[]>;
-  update(id: ID, data: Partial<HotelRoom>): Promise<HotelRoom>;
+    create(data: CreateHotelRoomDto): Promise<HotelRoom>;
+    findById(id: ID): Promise<HotelRoom>;
+    search(params: SearchRoomsParams): Promise<HotelRoom[]>;
+    update(id: ID, data: Partial<HotelRoom>): Promise<HotelRoom>;
 }

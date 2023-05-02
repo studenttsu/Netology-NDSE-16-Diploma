@@ -7,13 +7,13 @@ import { HotelsModule } from '../hotels/hotels.module';
 import { Reservation, ReservationSchema } from './models/reservation.model';
 
 @Module({
-  imports: [
-    HotelsModule,
-    MongooseModule.forFeature([
-      { name: Reservation.name, schema: ReservationSchema },
-    ]),
-  ],
-  controllers: [ReservationsController],
-  providers: [ReservationsService],
+    imports: [
+        HotelsModule,
+        MongooseModule.forFeature([
+            { name: Reservation.name, schema: ReservationSchema },
+        ]),
+    ],
+    controllers: [ReservationsController],
+    providers: [ReservationsService],
 })
 export class ReservationsModule {}

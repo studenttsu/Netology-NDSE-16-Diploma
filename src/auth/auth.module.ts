@@ -8,13 +8,13 @@ import { AuthSerializer } from './auth-serializer';
 import { AuthGuard } from './guards/auth.guard';
 
 @Module({
-  imports: [
-    UsersModule,
-    PassportModule.register({
-      session: true,
-    }),
-  ],
-  controllers: [AuthController],
-  providers: [LocalStrategy, AuthSerializer, AuthGuard],
+    imports: [
+        UsersModule,
+        PassportModule.register({
+            session: true,
+        }),
+    ],
+    controllers: [AuthController],
+    providers: [LocalStrategy, AuthSerializer, AuthGuard],
 })
 export class AuthModule {}

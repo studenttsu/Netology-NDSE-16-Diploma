@@ -12,48 +12,48 @@ import { Hotel, HotelDocument } from '../models/hotel.model';
 
 @Injectable()
 export class HotelRoomsService implements IHotelRoomsService {
-  constructor(
-    @InjectModel(HotelRoom.name)
-    private hotelRoomModel: Model<HotelRoomDocument>,
-    @InjectModel(Hotel.name) private hotelModel: Model<HotelDocument>,
-    private readonly minio: MinioClientService,
-  ) {}
+    constructor(
+        @InjectModel(HotelRoom.name)
+        private hotelRoomModel: Model<HotelRoomDocument>,
+        @InjectModel(Hotel.name) private hotelModel: Model<HotelDocument>,
+        private readonly minio: MinioClientService,
+    ) {}
 
-  async create(data: CreateHotelRoomDto): Promise<HotelRoom> {
-    const hotelRoom = await this.hotelRoomModel.create({
-      ...data,
-      hotel: data.hotelId,
-    });
+    async create(data: CreateHotelRoomDto): Promise<HotelRoom> {
+        const hotelRoom = await this.hotelRoomModel.create({
+            ...data,
+            hotel: data.hotelId,
+        });
 
-    const images = await Promise.all(
-      data.images.map((i) => this.minio.uploadFile(i, hotelRoom.id)),
-    );
-    await hotelRoom.updateOne({ images });
+        const images = await Promise.all(
+            data.images.map((i) => this.minio.uploadFile(i, hotelRoom.id)),
+        );
+        await hotelRoom.updateOne({ images });
 
-    return this.findById(hotelRoom.id);
-  }
-
-  async findById(id: ID): Promise<HotelRoom> {
-    const room = await this.hotelRoomModel.findById(id);
-    room.images = await Promise.all(
-      room.images.map((i) => this.minio.getFileUrl(i)),
-    );
-    return room;
-  }
-
-  async search(params: SearchRoomsParams): Promise<HotelRoom[]> {
-    const list = await this.hotelRoomModel.find();
-
-    for (const room of list) {
-      room.images = await Promise.all(
-        room.images.map((i) => this.minio.getFileUrl(i)),
-      );
+        return this.findById(hotelRoom.id);
     }
 
-    return list;
-  }
+    async findById(id: ID): Promise<HotelRoom> {
+        const room = await this.hotelRoomModel.findById(id);
+        room.images = await Promise.all(
+            room.images.map((i) => this.minio.getFileUrl(i)),
+        );
+        return room;
+    }
 
-  async update(id: ID, data: Partial<HotelRoom>): Promise<HotelRoom> {
-    return null;
-  }
+    async search(params: SearchRoomsParams): Promise<HotelRoom[]> {
+        const list = await this.hotelRoomModel.find();
+
+        for (const room of list) {
+            room.images = await Promise.all(
+                room.images.map((i) => this.minio.getFileUrl(i)),
+            );
+        }
+
+        return list;
+    }
+
+    async update(id: ID, data: Partial<HotelRoom>): Promise<HotelRoom> {
+        return null;
+    }
 }

@@ -5,22 +5,22 @@ import { User } from '../users/models/user.model';
 
 @Injectable()
 export class AuthSerializer extends PassportSerializer {
-  constructor() {
-    super();
-  }
+    constructor() {
+        super();
+    }
 
-  serializeUser(user: User, done: (err: Error, user: ReqUserDto) => void) {
-    done(null, {
-      id: user.id,
-      name: user.name,
-      role: user.role,
-    });
-  }
+    serializeUser(user: User, done: (err: Error, user: ReqUserDto) => void) {
+        done(null, {
+            id: user.id,
+            name: user.name,
+            role: user.role,
+        });
+    }
 
-  deserializeUser(
-    payload: ReqUserDto,
-    done: (err: Error, user: ReqUserDto) => void,
-  ) {
-    done(null, payload);
-  }
+    deserializeUser(
+        payload: ReqUserDto,
+        done: (err: Error, user: ReqUserDto) => void,
+    ) {
+        done(null, payload);
+    }
 }
