@@ -3,12 +3,12 @@ import { HydratedDocument, Types } from 'mongoose';
 
 export type MessageDocument = HydratedDocument<Message>;
 
-@Schema({ timestamps: true })
+@Schema()
 export class Message {
     @Prop({ isRequired: true })
     author: Types.ObjectId;
 
-    @Prop({ isRequired: true })
+    @Prop({ isRequired: true, type: Date, default: Date.now })
     sentAt: Date;
 
     @Prop({ isRequired: true })
